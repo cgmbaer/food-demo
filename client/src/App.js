@@ -13,6 +13,7 @@ import Kochbuch from './Kochbuch/Kochbuch';
 import Einkauf from './Einkauf/Einkauf';
 import Kalender from './Kalender/Kalender';
 import Zutaten from './Zutaten/Zutaten';
+import Erstellen from './Erstellen/Erstellen';
 
 export default function App() {
 
@@ -60,6 +61,7 @@ export default function App() {
       <Route path='/einkauf'><Einkauf /></Route>
       <Route path='/kalender'><Kalender /></Route>
       <Route path='/zutaten'><Zutaten /></Route>
+      <Route path='/erstellen'><Erstellen /></Route>
     </BrowserRouter>
   );
 }
