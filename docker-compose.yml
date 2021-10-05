@@ -37,6 +37,9 @@ services:
       - 27017:27017
     networks:
       - backend
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
 
 networks:
   backend:
@@ -44,3 +47,4 @@ networks:
 
 volumes:
   mongo-data:
+  mongo-config:
