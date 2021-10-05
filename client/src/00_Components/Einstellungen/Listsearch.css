@@ -1,0 +1,65 @@
+.listsearch__container {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.listsearch__name {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: x-large;
+    border-radius: 10px;
+    background-color: rgb(194, 223, 233);
+}
+
+.listsearch__search {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listsearch__search_icon {
+    height: 100%;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listsearch__search_text {
+    position: relative;
+    width: calc(100% - 120px);
+}
+
+.listsearch__search_text > input {
+    border: none;
+    background: transparent;
+    font-size: medium;
+    padding: 0px;
+    font-family: inherit;
+
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: x-large;
+    border-bottom: 1px solid grey;
+}
+
+.listsearch__erstellen_icon {
+    height: 100%;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listsearch__show_container {
+    display: block;
+    margin: auto;
+    justify-content: center;
+    width: 95%;
+}

@@ -1,0 +1,72 @@
+.zutat__container {
+    display: flex;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+}
+
+.zutat__container ::placeholder {
+    font-size: small;
+    font-style: italic;
+ }
+
+.zutat__remove {
+    display: flex;
+    width: 50px;
+    margin-right: 5px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.zutat__quantity  {
+    width: 10%;
+    margin-right: 20px;
+}
+
+.zutat__quantity > input {
+    border: none;
+    background: transparent;
+    font-size: medium;
+    text-align: center;
+    padding: 0px;
+    font-family: inherit;
+    border-bottom: 1px solid grey;
+
+    height: 30px;
+    width: 100%;
+    display: flex;
+}
+
+.zutat__unit {
+    position: relative;
+    width: 10%;
+    margin-right: 20px;
+    padding: 2px 5px 2px 5px;
+    border-radius: 5px;
+    background-color: rgb(238, 246, 248);
+
+    height: 30px;
+    font-size: medium;
+    line-height: 30px;
+}
+
+.zutat__ingredient {
+    position: relative;
+    width: calc(100% - 20% - 165px);
+    padding: 2px 5px 2px 5px;
+    border-radius: 5px;
+    background-color: rgb(238, 246, 248);
+
+    height: 30px;
+    font-size: medium;
+    line-height: 30px;
+}
+
+.zutat__save {
+    display: flex;
+    width: 50px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}

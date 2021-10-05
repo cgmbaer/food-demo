@@ -1,0 +1,133 @@
+.rezept__container {
+    margin-bottom: 4px;
+}
+
+.rezept__preview_container {
+    display: flex;
+    height: 90px;
+    background-color: rgb(201, 226, 236);
+}
+
+.rezept__thumbnail {
+    display: flex;
+    width: 120px;
+    align-items: center;
+}
+
+.rezept__name_tags {
+    width: calc(100% - 120px);
+    margin-left: 10px;
+    height: 100%;
+}
+
+.rezept__name {
+    display: flex;
+    height: calc(100% - 52px);
+    width: 100%;
+    align-items: center;
+    font-size: large;
+}
+
+.rezept__name > a {
+    display: flex;
+    height: 100%;
+    width: 40px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.rezept__text {
+    width: calc(100% - 40px);
+}
+
+.rezept__tags {
+    display: flex;
+    flex-wrap: wrap;
+    height: 46px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.rezept__tag_items {
+    margin: 0px 3px 3px 0px;
+    padding: 1px 7px 1px 7px;
+    border-radius: 5px;
+    background-color: rgb(81, 57, 219);
+    color: white;
+    font-size: 12px;
+    height: 18px;
+}
+
+.rezept__shopping {
+    display: flex;
+    height: 100%;
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.rezept__shopping:active {
+    background-color: rgb(115, 170, 194);
+    border-radius: 5px;
+}
+
+.rezept__show_container {
+    display: block;
+    margin: auto;
+    justify-content: center;
+    width: 95%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    background-color: rgb(239, 250, 255);
+}
+
+.rezept__show_ingredients {
+    margin:15px
+}
+
+.rezept__group_container {
+    margin-top: 20px
+}
+
+.rezept__group_text {
+    font-weight: bold;
+    padding: 2px 8px 2px 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.rezept__table_container {
+    display: flex;
+    width: 100%;
+}
+
+.rezept__table_quantity {
+    text-align: right;
+    padding-right: 10px;
+    width: 40px;
+}
+
+.rezept__table_unit {
+    display: flex;
+    width: 40px;
+}
+
+.rezept__table_ingredient {
+    display: flex;
+}
+
+.rezept__show_text_container {
+    margin: 30px 15px 15px 15px;
+    white-space: pre-wrap;
+}
+
+.rezept__edit {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+}
