@@ -1,9 +1,6 @@
 var mongoose = require("mongoose");
 
-// Get the Schema constructor
 var Schema = mongoose.Schema;
-
-// Using Schema constructor, create a ProductSchema
 var IngredientSchema = new Schema({
   name: {
     type: String,
@@ -21,8 +18,6 @@ var IngredientSchema = new Schema({
   }],
 });
 
-// Create model from the schema
 var Ingredient = mongoose.model("Ingredient", IngredientSchema);
 
-// Export model
 module.exports = Ingredient;

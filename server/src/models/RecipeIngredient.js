@@ -1,11 +1,8 @@
 var mongoose = require("mongoose");
 
-// Get the Schema constructor
 var Schema = mongoose.Schema;
-
-// Using Schema constructor, create a ProductSchema
 var RecipeIngredientSchema = new Schema({
-  recipeId: {
+  recipe: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: "Recipe"
@@ -21,8 +18,6 @@ var RecipeIngredientSchema = new Schema({
   }
 });
 
-// Create model from the schema
 var RecipeIngredient = mongoose.model("RecipeIngredient", RecipeIngredientSchema);
 
-// Export model
 module.exports = RecipeIngredient;
