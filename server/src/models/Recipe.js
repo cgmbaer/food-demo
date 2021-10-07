@@ -9,11 +9,9 @@ var RecipeSchema = new Schema({
   },
   quantity: {
     type: Number,
-    required: true
   },
   imageUrl: {
     type: String,
-    required: false
   },
   recipeIngredients: [{
     type: Schema.Types.ObjectId,

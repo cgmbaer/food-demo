@@ -75,6 +75,16 @@ app.post("/recipe", function(req, res) {
     });
 });
 
+app.post("/recipe/:id", function(req, res) {
+  db.Recipe.findByIdAndUpdate(req.params.id, req.body)
+    .then(function(dbRecipe) {
+      res.json(dbRecipe._id);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
 app.post("/ingredient", function(req, res) {
   db.Ingredient.create(req.body)
     .then(function(dbIngredient) {

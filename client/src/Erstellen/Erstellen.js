@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import { styled } from '@mui/material/styles';
 
@@ -8,61 +8,63 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
-import IconButton from '@mui/material/IconButton';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ImagePlaceholder from './imagePlaceholder.jpg'
+
+import Button from '@mui/material/Button';
 
 function SaveName() {
 
-  const name = useRef(false)
- 
+  const [recipeId, setRecipeId] = useState('')
+  const [name, setName] = useState('')
+  const [disabled, setDisabled] = useState(true)
+
+  const handleChange = e => {
+    setName(e.target.value);
+  };
+
   const handleClick = async function (e) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        "name": name.current.value,
-        "quantity": 4,
-        "imageUrl": "https://test.de"
+        "name": name
       })
     };
-    const response = await fetch('http://localhost:5000/recipe', requestOptions);
-    const data = await response.json();
-    console.log(data)
+    try {
+      const response = await fetch('http://localhost:5000/recipe/' + recipeId, requestOptions);
+      const data = await response.json();
+      if(data.code === 11000) {
+        console.log('already exists')
+      } else {
+        setRecipeId(data)
+        setDisabled(true)
+        console.log(data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
+
+  useEffect(() => {
+    name === "" ? setDisabled(true) : setDisabled(false)
+  }, [name, setDisabled])
 
   return (
     <Box>
       <Grid container spacing={0}>
-        <Grid item xs={10}>
+        <Grid item xs={9}>
           <TextField
-            inputRef={name}
-            sx={{
-              width: '100%',
-              height: '100%',
-            }}
+            value={name}
+            sx={{ width: '100%', height: '100%' }}
             label="Rezeptname eingeben"
             variant="standard"
+            onChange={handleChange}
           />
-        </Grid>
-        <Grid item xs={2}>
-          <IconButton
-            onClick={handleClick}
-            color="primary"
-            aria-label="Name Speichern"
-            sx={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              justifyContent: 'right',
-              '& svg': {
-                fontSize: 45
-              },
-              padding: 0,
-            }}
-          >
-            <CheckCircleOutlineIcon />
-          </IconButton>
+        </Grid >
+        <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'right', alignItems: 'center' }}>
+          <Button disabled={disabled} variant="contained" onClick={handleClick} sx={{ height: '80%' }} >
+            PUSH
+          </Button>
         </Grid>
       </Grid>
     </Box>
@@ -95,10 +97,7 @@ function ImageUpload() {
   return (
     <label htmlFor="contained-button-file">
       <Input accept="image/*" id="contained-button-file" onChange={handleChange} type="file" />
-      <Img
-        src={image}
-        alt="recipe image"
-      />
+      <Img src={image} alt="recipe image" />
     </label>
 
   );
@@ -119,9 +118,7 @@ export default function Erstellen() {
   )
 
   return (
-    <Container sx={{
-      paddingTop: 2
-    }}>
+    <Container sx={{ paddingTop: 2 }}>
       <SaveName />
       <ImageUpload />
       {Items}
