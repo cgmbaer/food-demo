@@ -29,6 +29,7 @@ services:
       - CLIENT=http://localhost:3000
     volumes:
       - ./server/src:/usr/src/app/src
+      - images:/usr/src/app/images
     depends_on:
       - db
 
@@ -47,5 +48,6 @@ networks:
   frontend:
 
 volumes:
+  images:
   mongo-data:
   mongo-config:

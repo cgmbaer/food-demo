@@ -1,18 +1,13 @@
 import { useState, useEffect } from 'react';
 
-import { styled } from '@mui/material/styles';
-
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
-import ImagePlaceholder from './imagePlaceholder.jpg'
-
 import Button from '@mui/material/Button';
 
-export default function SaveName(props) {
+export default function Name(props) {
 
   const [recipeId, setRecipeId] = useState('')
   const [name, setName] = useState('')
