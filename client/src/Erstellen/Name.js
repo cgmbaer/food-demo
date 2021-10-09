@@ -26,7 +26,7 @@ export default function Name(props) {
       })
     };
     try {
-      const response = await fetch('http://localhost:5000/recipe/' + recipeId, requestOptions);
+      const response = await fetch('http://localhost:5000/api/recipe/' + recipeId, requestOptions);
       const data = await response.json();
       if(data.code === 11000) {
         console.log('already exists')
@@ -52,6 +52,7 @@ export default function Name(props) {
         <Grid item xs={9}>
           <TextField
             value={name}
+            autoFocus={true}
             sx={{ width: '100%', height: '100%' }}
             label="Rezeptname eingeben"
             variant="standard"

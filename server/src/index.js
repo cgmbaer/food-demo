@@ -2,7 +2,9 @@ const express = require('express')
 const mongoose = require("mongoose");
 const cors = require('cors');
 const db = require("./models/models.js");
+
 const multer = require('multer');
+const path = require('path')
 
 const app = express()
 const port = 5000
@@ -19,23 +21,25 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 var storage = multer.diskStorage({
+
   destination: function (req, file, cb) {
-    cb(null, './images');
+    cb(null, './' + req.body.type);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
 var upload = multer({ storage: storage })
 
-app.use('/images', express.static("images"));
+app.use('/static/images', express.static("images"));
+app.use('/static/recipes', express.static("recipes"));
 
 app.get("/", function (req, res) {
   res.send("Hello from demo app!");
 });
 
-app.get("/recipes", function (req, res) {
+app.get("/api/recipes", function (req, res) {
   db.Recipe.find({})
     .then(function (dbRecipes) {
       res.json(dbRecipes);
@@ -45,7 +49,7 @@ app.get("/recipes", function (req, res) {
     })
 });
 
-app.get("/ingredients", function (req, res) {
+app.get("/api/ingredients", function (req, res) {
   db.Ingredient.find({})
     .then(function (dbIngredients) {
       res.json(dbIngredients);
@@ -55,7 +59,7 @@ app.get("/ingredients", function (req, res) {
     })
 });
 
-app.get("/recipeIngredients", function (req, res) {
+app.get("/api/recipeIngredients", function (req, res) {
   db.RecipeIngredient.find({})
     .then(function (dbRecipeIngredient) {
       res.json(dbRecipeIngredient);
@@ -65,7 +69,7 @@ app.get("/recipeIngredients", function (req, res) {
     })
 });
 
-app.get("/recipes/:id", function (req, res) {
+app.get("/api/recipes/:id", function (req, res) {
   db.Recipe.findOne({ _id: req.params.id })
     .populate({ path: 'recipeIngredients', populate: { path: 'ingredient' } })
     .then(function (dbRecipe) {
@@ -76,7 +80,7 @@ app.get("/recipes/:id", function (req, res) {
     });
 });
 
-app.post("/recipe", function (req, res) {
+app.post("/api/recipe", function (req, res) {
   db.Recipe.create(req.body)
     .then(function (dbRecipe) {
       res.json(dbRecipe._id);
@@ -86,7 +90,7 @@ app.post("/recipe", function (req, res) {
     });
 });
 
-app.post("/recipe/:id", function (req, res) {
+app.post("/api/recipe/:id", function (req, res) {
   db.Recipe.findByIdAndUpdate(req.params.id, req.body)
     .then(function (dbRecipe) {
       res.json(dbRecipe._id);
@@ -96,7 +100,7 @@ app.post("/recipe/:id", function (req, res) {
     });
 });
 
-app.post("/ingredient", function (req, res) {
+app.post("/api/ingredient", function (req, res) {
   db.Ingredient.create(req.body)
     .then(function (dbIngredient) {
       res.json(dbIngredient);
@@ -106,7 +110,7 @@ app.post("/ingredient", function (req, res) {
     });
 });
 
-app.post("/recipeingredient", function (req, res) {
+app.post("/api/recipeingredient", function (req, res) {
   db.RecipeIngredient.create(req.body)
     .then(function (dbRecipeIngredient) {
       res.json(dbRecipeIngredient);
@@ -116,7 +120,7 @@ app.post("/recipeingredient", function (req, res) {
     });
 });
 
-app.post("/recipeingredient/:recipe_id", function (req, res) {
+app.post("/api/recipeingredient/:recipe_id", function (req, res) {
   db.RecipeIngredient.create(req.body)
     .then(function (dbRecipeIngredient) {
       return db.Recipe.findOneAndUpdate({ _id: req.params.recipe_id }, { $push: { recipeIngredients: dbRecipeIngredient._id } }, { "new": true });
@@ -143,10 +147,9 @@ app.post("/recipeingredient/:recipe_id", function (req, res) {
 //   res.redirect('/');
 // });
 
-app.post('/uploadImage', upload.single('image'), function (req, res) {
+app.post('/api/uploadImage', upload.single('image'), function (req, res) {
   try {
-    console.log(res)
-    res.sendStatus(200)
+    res.json(req.file.filename);
   } catch (err) {
     res.send(400);
   }

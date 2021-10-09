@@ -30,6 +30,7 @@ services:
     volumes:
       - ./server/src:/usr/src/app/src
       - images:/usr/src/app/images
+      - recipes:/usr/src/app/recipes
     depends_on:
       - db
 
@@ -49,5 +50,6 @@ networks:
 
 volumes:
   images:
+  recipes:
   mongo-data:
   mongo-config:
