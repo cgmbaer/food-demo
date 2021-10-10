@@ -6,11 +6,13 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
 import Button from '@mui/material/Button';
+import Message from './Message';
 
 export default function Name(props) {
 
   const [recipeId, setRecipeId] = useState('')
   const [name, setName] = useState('')
+  const [open, setOpen] = useState(false);
   const [disabled, setDisabled] = useState(true)
 
   const handleChange = e => {
@@ -36,6 +38,8 @@ export default function Name(props) {
           setRecipeId(data)
           props.setRecipeId(data)
         }
+
+        setOpen(true)
       }
     } catch (err) {
       console.log(err)
@@ -65,6 +69,7 @@ export default function Name(props) {
           </Button>
         </Grid>
       </Grid>
+      <Message open={open} setOpen={setOpen} />
     </Box>
   )
 }

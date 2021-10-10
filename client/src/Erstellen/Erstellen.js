@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import SaveName from './Name'
+import Message from './Message';
 
 const Input = styled('input')({
   display: 'none'
@@ -21,6 +22,7 @@ const Img = styled('img')({
 function ImageBox(props) {
 
   const [image, setImage] = useState(null)
+  const [open, setOpen] = useState(false);
 
   const handleChange = async e => {
     let fd = new FormData()
@@ -36,6 +38,7 @@ function ImageBox(props) {
       })
       const fn = await res.json()
       setImage('http://localhost:5000/static/' + props.type + '/' + fn)
+      setOpen(true);
     } catch (err) {
       console.log(err)
     }
@@ -46,27 +49,29 @@ function ImageBox(props) {
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Button>{props.name}</Button>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}></Box>
-      <label htmlFor={props.type}>
-        <Input accept="image/*" id={props.type} onChange={handleChange} type="file" />
-        {!image ? (
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            border: '1px solid ',
-            width: '160px',
-            height: '120px',
-            borderRadius: '16px',
-            borderColor: '#1976d2'
-          }}>
-            <IconButton color="primary" component="span">
-              <AddAPhotoIcon sx={{ fontSize: 40 }} />
-            </IconButton>
-          </Box>) : (
-          <Img src={image} alt='add' />
-        )}
-      </label>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <label htmlFor={props.type}>
+          <Input accept="image/*" id={props.type} onChange={handleChange} type="file" />
+          {!image ? (
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              border: '1px solid ',
+              width: '160px',
+              height: '120px',
+              borderRadius: '16px',
+              borderColor: '#1976d2'
+            }}>
+              <IconButton color="primary" component="span">
+                <AddAPhotoIcon sx={{ fontSize: 40 }} />
+              </IconButton>
+            </Box>) : (
+            <Img src={image} alt='add' />
+          )}
+        </label>
+      </Box>
+      <Message open={open} setOpen={setOpen} />
     </Box>
   );
 }
