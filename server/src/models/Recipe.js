@@ -10,7 +10,10 @@ var RecipeSchema = new Schema({
   quantity: {
     type: Number,
   },
-  imageUrl: {
+  imageFn: {
+    type: String,
+  },
+  recipeFn: {
     type: String,
   },
   recipeIngredients: [{

@@ -1,15 +1,16 @@
 const express = require('express')
-const mongoose = require("mongoose");
-const cors = require('cors');
-const db = require("./models/models.js");
+const mongoose = require("mongoose")
+const cors = require('cors')
+const db = require("./models/models.js")
 
-const multer = require('multer');
+const multer = require('multer')
+const sharp = require('sharp')
 const path = require('path')
 
 const app = express()
 const port = 5000
 
-var corsOptions = {
+const corsOptions = {
   origin: process.env.CLIENT
 }
 
@@ -17,20 +18,22 @@ app.use(cors(corsOptions));
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 
+sharp.cache(false);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
 
   destination: function (req, file, cb) {
     cb(null, './' + req.body.type);
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + '.jpg');
   }
 });
 
-var upload = multer({ storage: storage })
+const upload = multer({ storage: storage })
 
 app.use('/static/images', express.static("images"));
 app.use('/static/recipes', express.static("recipes"));
@@ -133,25 +136,29 @@ app.post("/api/recipeingredient/:recipe_id", function (req, res) {
     });
 });
 
-// app.post('/ttt', upload.single('image'), async (req, res) => {
-//   const { filename: image } = req.file;
-
-//   await sharp(req.file.path)
-//     .resize(200, 200)
-//     .jpeg({ quality: 90 })
-//     .toFile(
-//       path.resolve(req.file.destination, 'resized', image)
-//     )
-//   fs.unlinkSync(req.file.path)
-
-//   res.redirect('/');
-// });
-
-app.post('/api/uploadImage', upload.single('image'), function (req, res) {
+app.post('/api/uploadImage', upload.single('image'), async function (req, res) {
   try {
-    res.json(req.file.filename);
+    const fn = req.file.filename
+    const fp = path.resolve(req.file.destination, fn)
+    let dbField = 'recipeFn'
+
+    if (req.body.type === 'images') {
+      let buffer = await sharp(req.file.path)
+        .resize(320, 240, { fit: sharp.fit.cover })
+        .jpeg({ quality: 50, force: true })
+        .toBuffer()
+      await sharp(buffer).toFile(fp)
+      dbField = 'imageFn'
+    }
+    db.Recipe.findByIdAndUpdate(req.body.id, { [dbField]: fn })
+      .then(function () {
+        res.json(fn);
+      })
+      .catch(function (err) {
+        res.json(err);
+      });
   } catch (err) {
-    res.send(400);
+    res.send(err);
   }
 });
 
