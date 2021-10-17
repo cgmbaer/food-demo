@@ -3,6 +3,8 @@ const mongoose = require("mongoose")
 const cors = require('cors')
 const db = require("./models/models.js")
 
+const request = require('request');
+
 const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
@@ -16,7 +18,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO, { useNewUrlParser: true });
 
 sharp.cache(false);
 
@@ -160,6 +162,19 @@ app.post('/api/uploadImage', upload.single('image'), async function (req, res) {
   } catch (err) {
     res.send(err);
   }
+});
+
+app.get("/api/testOCR", function (req, res) {
+  let url = "http://ocr:5000";
+  let options = { json: true };
+  request(url, options, (error, res, body) => {
+    if (error) {
+      return console.log(error)
+    };
+    if (!error && res.statusCode == 200) {
+      return res.body
+    };
+  });
 });
 
 app.listen(port, () => {
